@@ -1,0 +1,30 @@
+{
+  "name": "@byondreal/accessor",
+  "version": "1.0.0",
+  "description": "Deeply nested object property getter and setter",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/byondreal/accessor.js"
+  },
+  "keywords": [
+    "accessor",
+    "getter",
+    "setter",
+    "nested",
+    "object",
+    "deep"
+  ],
+  "author": "ByondReal Dev <dev@byondreal.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/byondreal/accessor.js/issues"
+  },
+  "homepage": "https://github.com/byondreal/accessor.js",
+  "dependencies": {
+    "@byondreal/assert": "^1.0.0"
+  }
+}
