@@ -1,13 +1,15 @@
-var assert = require('@byondreal/assert');
+var assert = require('simple-assert');
 
 // find value of nested key inside obj, like:
 //
-//    accessor({ a: { b: { c: 'value' } } }, 'a.b.c') === 'value'
+//    var getProp = require('getsetprop');
+//    getProp({ a: { b: { c: 'value' } } }, 'a.b.c') === 'value'
 //
 // set value of nested key inside obj, like:
 //
+//    var setProp = require('getsetprop');
 //    obj = { a: { b: { c: 'value' } } };
-//    accessor(obj, 'a.b.c', 'lol');
+//    setProp(obj, 'a.b.c', 'lol');
 //    obj.a.b.c === 'lol'
 //
 function accessor(obj, key, value) {

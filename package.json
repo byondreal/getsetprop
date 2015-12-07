@@ -1,5 +1,5 @@
 {
-  "name": "@byondreal/accessor",
+  "name": "getsetprop",
   "version": "1.0.0",
   "description": "Deeply nested object property getter and setter",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/byondreal/accessor.js"
+    "url": "https://github.com/byondreal/getsetprop"
   },
   "keywords": [
     "accessor",
@@ -21,9 +21,9 @@
   "author": "ByondReal Dev <dev@byondreal.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/byondreal/accessor.js/issues"
+    "url": "https://github.com/byondreal/getsetprop/issues"
   },
-  "homepage": "https://github.com/byondreal/accessor.js",
+  "homepage": "https://github.com/byondreal/getsetprop",
   "dependencies": {
     "@byondreal/assert": "^1.0.0"
   }
