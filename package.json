@@ -1,6 +1,6 @@
 {
   "name": "getsetprop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Deeply nested object property getter and setter",
   "main": "index.js",
   "scripts": {
