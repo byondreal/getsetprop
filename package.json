@@ -25,6 +25,9 @@
   },
   "homepage": "https://github.com/byondreal/getsetprop",
   "dependencies": {
-    "@byondreal/assert": "^1.0.0"
+    "simple-assert": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4"
   }
 }
