@@ -22,7 +22,7 @@ Sets `value` at specified `path` in `object`.
 - `string path`: access path for getters (`'a.b.c'`)
 
 #### For setter
-- `primitive value`: primitive value to be set at specified access path
+- `value`: primitive value to be set at specified access path
   (`'val'`, `2`, etc.)
 - `object path`: access path for setters also containing new value
   (`{ a: { b: 'val' } }`).
@@ -32,8 +32,8 @@ Sets `value` at specified `path` in `object`.
 ## Rules
 
 - `object path` can only be used in setter
-- `object path` cannot also specify `primitive value` (or `object value`)
-- `string path` needs `primitive value` or `object value` in setter
+- `object path` cannot also specify `value` (or `object value`)
+- `string path` needs `value` (or `object value`) in setter
 - `string path` can be combined with `object value` to specify further
   nested path and new value at final path
 - cannot set objects as values at the moment (may reconsider this in
@@ -43,7 +43,7 @@ Sets `value` at specified `path` in `object`.
 
 #### For Getter
 
-- Gets nested value from string paths
+- Gets nested value from `string path`
 
 ```
     var obj = { a: { b: { c: 'value' } } };
@@ -61,7 +61,7 @@ Sets `value` at specified `path` in `object`.
     }
 ```
 
-- Does not allow object paths
+- Does not allow `object path`
 
 ```
     var obj = { a: { b: { c: 'value', d: 'haha' } } };
@@ -72,14 +72,34 @@ Sets `value` at specified `path` in `object`.
     }
 ```
 
+- Gets nested value from arrays via `string path`
+
+```
+    var obj = [{ a: 1 }, { b: { c: 'value' } }];
+    assert(get(obj, '0.a') === 1);
+    assert(get(obj, '1.b.c') === 'value');
+```
+
 #### For Setter
 
-- Sets value for nested object by string path
+- Sets value for nested object by `string path`
 
 ```
     var obj = { a: { b: { c: 'value' } } };
     set(obj, 'a.b.c', 'lol');
     assert(obj.a.b.c === 'lol');
+```
+
+- Sets value in arrays via `string path`
+
+```
+    var obj = [{ a: 1 }, { b: { c: 'value', d: 'haha' } }];
+    set(obj, '0.a', 2);
+    assert(obj[0].a === 2);
+
+    set(obj, '1.b.c', 'lol');
+    assert(obj[1].b.c === 'lol');
+    assert(obj[1].b.d === 'haha');
 ```
 
 - Requires value to be set
@@ -93,7 +113,7 @@ Sets `value` at specified `path` in `object`.
     }
 ```
 
-- Allows undefined value with object paths
+- Sets nested value via `object path`
 
 ```
     var obj = { a: { b: { c: 'value' } } };
@@ -101,7 +121,7 @@ Sets `value` at specified `path` in `object`.
     assert(obj.a.b.c === 'lol');
 ```
 
-- Does not allow defined value for object paths
+- Does not allow value with `object path`
 
 ```
     var obj = { a: { b: { c: 'value' } } };
@@ -120,13 +140,22 @@ Sets `value` at specified `path` in `object`.
     assert(obj.a.b === 'lol');
 ```
 
-- Sets nested value via object path
+- Sets nested value via `object path`
 
 ```
     var obj = { a: { b: { c: 'value', d: 'haha' } } };
     set(obj, { a: { b: { c: 'lol' } } });
     assert(obj.a.b.c === 'lol');
     assert(obj.a.b.d === 'haha');
+```
+
+- Sets nested value in array via `object path`
+
+```
+    var obj = [{ a: 1 }, { b: { c: 'value' } }];
+    set(obj, [{ a: 2}, { b: { c: 'lol' } }]);
+    assert(obj[0].a === 2);
+    assert(obj[1].b.c === 'lol');
 ```
 
 - Maintains object references, only changing value
@@ -139,7 +168,7 @@ Sets `value` at specified `path` in `object`.
     assert(obj.a.b === b);
 ```
 
-- Sets nested value via value object
+- Sets nested value via `object value`
 
 ```
     var obj = { a: { b: { c: 'value', d: 'haha' } } };
@@ -148,7 +177,7 @@ Sets `value` at specified `path` in `object`.
     assert(obj.a.b.d === 'haha');
 ```
 
-- Allows mixing object paths and object values
+- Allows mixing `object path` and `object value`
 
 ```
     var obj = { a: { b: { c: 'value', d: 'haha' } } };

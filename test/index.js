@@ -27,6 +27,12 @@ describe('getsetprop', function () {
         done();
       }
     });
+
+    it('gets nested value from arrays via string paths', function() {
+      var obj = [{ a: 1 }, { b: { c: 'value' } }];
+      assert(get(obj, '0.a') === 1);
+      assert(get(obj, '1.b.c') === 'value');
+    });
   });
 
   describe('.set()', function () {
@@ -34,6 +40,16 @@ describe('getsetprop', function () {
       var obj = { a: { b: { c: 'value' } } };
       set(obj, 'a.b.c', 'lol');
       assert(obj.a.b.c === 'lol');
+    });
+
+    it('sets value in arrays via string path', function () {
+      var obj = [{ a: 1 }, { b: { c: 'value', d: 'haha' } }];
+      set(obj, '0.a', 2);
+      assert(obj[0].a === 2);
+
+      set(obj, '1.b.c', 'lol');
+      assert(obj[1].b.c === 'lol');
+      assert(obj[1].b.d === 'haha');
     });
 
     it('requires value to be set', function (done) {
@@ -45,13 +61,20 @@ describe('getsetprop', function () {
       }
     });
 
-    it('allows undefined value with object paths', function () {
+    it('sets nested value via object paths', function () {
       var obj = { a: { b: { c: 'value' } } };
       set(obj, { a: { b: { c: 'lol' } } });
       assert(obj.a.b.c === 'lol');
     });
 
-    it('does not allow defined value for object paths', function (done) {
+    it('sets nested value in array via object paths', function () {
+      var obj = [{ a: 1 }, { b: { c: 'value' } }];
+      set(obj, [{ a: 2}, { b: { c: 'lol' } }]);
+      assert(obj[0].a === 2);
+      assert(obj[1].b.c === 'lol');
+    });
+
+    it('does not allow value with object paths', function (done) {
       var obj = { a: { b: { c: 'value' } } };
       try {
         set(obj, { a: { b: 'c' } }, 'haha');
@@ -81,7 +104,7 @@ describe('getsetprop', function () {
       assert(obj.a.b === b);
     });
 
-    it('sets nested value via value object', function () {
+    it('sets nested value via object value', function () {
       var obj = { a: { b: { c: 'value', d: 'haha' } } };
       set(obj, 'a', { b: { c: 'lol' } });
       assert(obj.a.b.c === 'lol');
