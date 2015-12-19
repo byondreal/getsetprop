@@ -3,13 +3,13 @@ Deeply nested object property getter and setter for JavaScript
 
 ## Signature
 
-### Getter
+#### For Getter
 Returns `value` in `object` at specified `path`.
 
     var get = require('getsetprop').get;
     var value = get(object, path);
 
-### Setter
+#### For Setter
 
 Sets `value` at specified `path` in `object`.
 
@@ -18,10 +18,10 @@ Sets `value` at specified `path` in `object`.
 
 ## Terminology
 
-### For getter
+#### For getter
 - `string path`: access path for getters (`'a.b.c'`)
 
-### For setter
+#### For setter
 - `primitive value`: primitive value to be set at specified access path
   (`'val'`, `2`, etc.)
 - `object path`: access path for setters also containing new value
@@ -41,7 +41,7 @@ Sets `value` at specified `path` in `object`.
 
 ## Usage Examples
 
-### Getter
+#### For Getter
 
 - Gets nested value from string paths
 
@@ -66,7 +66,7 @@ Sets `value` at specified `path` in `object`.
       done();
     }
 
-### Setter
+#### For Setter
 
 - Sets value for nested object by string path
 
