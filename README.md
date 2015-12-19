@@ -26,16 +26,16 @@ Sets `value` at specified `path` in `object`.
   (`'val'`, `2`, etc.)
 - `object path`: access path for setters also containing new value
   (`{ a: { b: 'val' } }`).
-- `object value`: object containing both path and value to set
+- `object value`: object containing both path and new value
   (`{ a: { b: 'val' } }`)
 
 ## Rules
 
-- object paths can only be used in setter
-- object paths cannot also specify values (or object values)
-- string paths need values in setter
-- string paths can be combined with object values to specify further
-  path and ultimate primitive value
+- `object path` can only be used in setter
+- `object path` cannot also specify `primitive value` (or `object value`)
+- `string path` needs `primitive value` or `object value` in setter
+- `string path` can be combined with `object value` to specify further
+  nested path and new value at final path
 - cannot set objects as values at the moment (may reconsider this in
   future if sufficient use case found)
 
