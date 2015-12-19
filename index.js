@@ -1,47 +1,63 @@
 var assert = require('simple-assert');
 
-// find value of nested key inside obj, like:
-//
-//    var getProp = require('getsetprop');
-//    getProp({ a: { b: { c: 'value' } } }, 'a.b.c') === 'value'
-//
-// set value of nested key inside obj, like:
-//
-//    var setProp = require('getsetprop');
-//    obj = { a: { b: { c: 'value' } } };
-//    setProp(obj, 'a.b.c', 'lol');
-//    obj.a.b.c === 'lol'
-//
-function accessor(obj, key, value) {
-  assert('string' === typeof key, 'Key to accessor needs to be string');
+function accessor(obj, path, value) {
   assert('object' === typeof obj, 'Need object to find value from');
 
-  // get key parts
-  var parts = key.split('.'),
-      i = 0,
-      result = obj;
+  var result = obj;
+  if ('string' === typeof path) {
+    // get components of string path
+    var parts = path.split('.');
+    var i = 0;
 
-  // return base object for empty key getters
-  if (!key && value == null) return obj;
+    // return base object for empty paths
+    if (!path && value === undefined) { return obj; }
 
-  while (i < parts.length) {
-    // if setter mode and reached end of key, set value
-    if (value != null && i === parts.length - 1) {
-      result[parts[i]] = value;
+    while (i < parts.length) {
+      // if setter mode and reached end of path, set value
+      if (value !== undefined && i === parts.length - 1) {
+        // if value is also an object path to a nested value
+        // then access the deeper path and set nested value there
+        // else set the value at the string path
+        if ('object' === typeof value) {
+          return accessor(result[parts[i]], value);
+        } else {
+          result[parts[i]] = value;
+        }
+      }
+
+      result = result[parts[i]];
+
+      // for both getters and setters,
+      // return undefined if end of path is unreachable
+      if (result === undefined) { return undefined; }
+      i += 1;
     }
-
-    result = result[parts[i]];
-
-    // for both getters and setters,
-    // return undefined if end of key is unreachable
-    if (result == null) return undefined;
-    i += 1;
+  } else if ('object' === typeof path) {
+    assert(value === undefined,
+      'with object paths, no separate value is needed for setter');
+    for (var key in path) {
+      if (path.hasOwnProperty(key)) {
+        accessor(obj, key, path[key]);
+      }
+    }
+  } else {
+    assert.fail('path to access must be string/object', path);
   }
 
-  // if reached to end of key, return final value
+  // if reached to end of path, return final value
   return result;
 }
 
-accessor.get = accessor.set = accessor;
-module.exports = accessor;
+exports.get = function(obj, path, value) {
+  assert(value === undefined, 'Cannot set value from getter');
+  assert('object' !== typeof path, 'Cannot use object as path for getter');
+  return accessor(obj, path);
+};
+
+exports.set = function(obj, path, value) {
+  if ('object' !== typeof path) {
+    assert(value !== undefined, 'Need value to set, or use path object');
+  }
+  return accessor(obj, path, value);
+};
 
