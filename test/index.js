@@ -45,13 +45,13 @@ describe('getsetprop', function () {
       }
     });
 
-    it('allows undefined value with path objects', function () {
+    it('allows undefined value with object paths', function () {
       var obj = { a: { b: { c: 'value' } } };
       set(obj, { a: { b: { c: 'lol' } } });
       assert(obj.a.b.c === 'lol');
     });
 
-    it('does not allow defined value for path objects', function (done) {
+    it('does not allow defined value for object paths', function (done) {
       var obj = { a: { b: { c: 'value' } } };
       try {
         set(obj, { a: { b: 'c' } }, 'haha');
@@ -66,7 +66,7 @@ describe('getsetprop', function () {
       assert(obj.a.b === 'lol');
     });
 
-    it('sets nested value via path object', function () {
+    it('sets nested value via object path', function () {
       var obj = { a: { b: { c: 'value', d: 'haha' } } };
       set(obj, { a: { b: { c: 'lol' } } });
       assert(obj.a.b.c === 'lol');
@@ -88,7 +88,7 @@ describe('getsetprop', function () {
       assert(obj.a.b.d === 'haha');
     });
 
-    it('allows mixing path object and value object', function () {
+    it('allows mixing object path and object value', function () {
       var obj = { a: { b: { c: 'value', d: 'haha' } } };
       set(obj, 'a.b', { c: 'lol' });
       assert(obj.a.b.c === 'lol');
